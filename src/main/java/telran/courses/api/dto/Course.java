@@ -19,7 +19,7 @@ public class Course implements Serializable{
 	public CourseType type;
 	@NotNull @Size(min = 1, max = 2)
 	public String[] dayEvening;
-	@Pattern(regexp = "\\d{4}-\\d{2}-\\d{2}")
+	@Pattern(regexp = "\\d{4}-\\d{2}-\\d{2}.*")
 	public String startDate;
 	
 	

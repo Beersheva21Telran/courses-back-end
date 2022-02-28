@@ -22,6 +22,7 @@ import javax.validation.Valid;
 @RestController
 @RequestMapping(COURSES_MAPPING)
 @Validated
+@CrossOrigin
 public class CoursesController {
 	static Logger LOG = LoggerFactory.getLogger(CoursesController.class);
 	@Autowired
@@ -36,7 +37,7 @@ private CoursesService coursesService;
 	@GetMapping
 	List<Course> getCourses() {
 		List<Course> courses = coursesService.getAllCourses();
-		LOG.debug("getting {} courses", courses.size());
+		LOG.trace("getting {} courses", courses.size());
 		return courses;
 	}
 	@GetMapping("/{id}")
