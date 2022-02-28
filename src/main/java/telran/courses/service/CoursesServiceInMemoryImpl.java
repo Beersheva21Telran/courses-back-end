@@ -64,6 +64,7 @@ public void restore() {
     try (ObjectInputStream reader = new ObjectInputStream(new FileInputStream(fileName))) {
     	CoursesServiceInMemoryImpl res = (CoursesServiceInMemoryImpl) reader.readObject();
     	res.getAllCourses().forEach(this::add);
+    	LOG.info("courses have been restored from file {}", fileName);
         
     }catch (FileNotFoundException e) {
     	LOG.info("file {} doesn't exist restore has not been performed", fileName);
@@ -77,6 +78,7 @@ public void save(){
     try(ObjectOutputStream writer = new ObjectOutputStream(new FileOutputStream(fileName));) {
 		
 		writer.writeObject(this);
+		LOG.info("courses have been saved into file {}", fileName);
 	} catch (Exception e) {
 		LOG.error("for file {} exception: {}", fileName, e);
 	} 

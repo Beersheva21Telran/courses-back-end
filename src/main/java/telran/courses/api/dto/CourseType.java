@@ -1,5 +1,5 @@
 package telran.courses.api.dto;
 
 public enum CourseType {
-QA, PROGRAMMING
+QA, Programming
 }
