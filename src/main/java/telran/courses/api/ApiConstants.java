@@ -8,4 +8,5 @@ int MAX_COST = 20000;
 int MIN_ID = 100000;
 int MAX_ID = 999999;
 String COURSES_MAPPING = "/courses";
+String WEBSOCKET_ENDPOINT = "/websocket-courses";
 }

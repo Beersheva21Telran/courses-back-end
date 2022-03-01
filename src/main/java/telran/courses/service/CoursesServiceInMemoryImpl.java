@@ -6,7 +6,9 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ThreadLocalRandom;
 
 import org.slf4j.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 import static telran.courses.api.ApiConstants.*;
 
@@ -15,15 +17,17 @@ import telran.courses.api.dto.Course;
 public class CoursesServiceInMemoryImpl implements CoursesService, Serializable {
 static Logger LOG = LoggerFactory.getLogger(CoursesService.class);
 	private static final long serialVersionUID = 1L;
+	@Autowired
+	transient SimpMessagingTemplate smt;
 	@Value("${app.courses.fileName: courses.data}")
 	private String fileName;
 private Map<Integer, Course> courses = new ConcurrentHashMap<>();
 @Override
 public synchronized Course addCourse(Course course) {
     course.id = generateId();
-    
-    
-    return add(course);
+    Course res = add(course);
+    smt.convertAndSend("/topic/courses", "added");
+    return res;
 }
 
 private Course add(Course course) {
@@ -34,6 +38,10 @@ private Course add(Course course) {
 @Override
 public Course removeCourse(int id) {
    Course course = courses.remove(id);
+   if (course != null) {
+	      smt.convertAndSend("/topic/courses", "removed");
+   }
+
   return course;
 }
 
@@ -44,7 +52,11 @@ public boolean exists(int id) {
 
 @Override
 public Course updateCourse(int id, Course course) {
-  return  courses.replace(id, course);
+	Course res = courses.replace(id, course);
+	if (res != null) {
+		smt.convertAndSend("/topic/courses", "updated");
+	}
+  return  res;
 }
 
 @Override
