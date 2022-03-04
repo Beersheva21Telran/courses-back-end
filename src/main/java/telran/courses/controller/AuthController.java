@@ -15,6 +15,7 @@ import telran.courses.api.dto.*;
 import telran.courses.security.Account;
 @RestController
 @RequestMapping(value=ApiConstants.LOGIN_MAPPING)
+@CrossOrigin
 public class AuthController {
 	static Logger LOG = LoggerFactory.getLogger(AuthController.class);
 
@@ -44,7 +45,7 @@ public class AuthController {
 		String userPassword = String.format("%s:%s", loginData.email, loginData.password);
 		String accessToken = "Basic " + Base64.getEncoder()
 		.encodeToString(userPassword.getBytes());
-		return new AuthToken(accessToken , account.getRole());
+		return new AuthToken(accessToken , account.getRole().replace("ROLE_", ""));
 	}
 
 	private ResponseEntity<?> wrongAccount() {

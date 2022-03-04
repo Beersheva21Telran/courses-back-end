@@ -34,8 +34,8 @@ PasswordEncoder getPasswordEncoder() {
 @Override
 
 	protected void configure(HttpSecurity http) throws Exception {
-		http.cors().disable();
-		http.csrf().disable();
+		http.cors().and().csrf().disable();
+		
 		http.httpBasic();
 		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 		http.authorizeHttpRequests()
