@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import telran.courses.api.*;
 import telran.courses.api.dto.*;
 import telran.courses.security.Account;
+import telran.courses.security.JwtUtils;
 @RestController
 @RequestMapping(value=ApiConstants.LOGIN_MAPPING)
 @CrossOrigin
@@ -21,10 +22,13 @@ public class AuthController {
 
 	ConcurrentMap<String, Account> accounts;
 	PasswordEncoder passwordEncoder;
+	JwtUtils jwtUtils;
 	@Autowired
-	public AuthController(ConcurrentMap<String, Account> accounts, PasswordEncoder passwordEncoder) {
+	public AuthController(ConcurrentMap<String, Account> accounts,
+			PasswordEncoder passwordEncoder, JwtUtils jwtUtils) {
 		this.accounts = accounts;
 		this.passwordEncoder = passwordEncoder;
+		this.jwtUtils = jwtUtils;
 	}
 	
 	@PostMapping
@@ -42,14 +46,13 @@ public class AuthController {
 	}
 
 	private AuthToken getToken(LoginData loginData, Account account) {
-		String userPassword = String.format("%s:%s", loginData.email, loginData.password);
-		String accessToken = "Basic " + Base64.getEncoder()
-		.encodeToString(userPassword.getBytes());
+		
+		String accessToken = "Bearer " + jwtUtils.create(loginData.email);
 		return new AuthToken(accessToken , account.getRole().replace("ROLE_", ""));
 	}
 
 	private ResponseEntity<?> wrongAccount() {
-		
+		LOG.error("wrong name or password");
 		return ResponseEntity.badRequest().body("");
 	}
 }
