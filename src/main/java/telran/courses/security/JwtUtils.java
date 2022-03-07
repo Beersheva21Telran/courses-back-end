@@ -36,7 +36,7 @@ long expTimePeriodMs;
 	}
 	public String validate(String jwt) {
 		try {
-			return Jwts.parser().setSigningKey(secret).parseClaimsJwt(jwt).getBody().getSubject();
+			return Jwts.parser().setSigningKey(secret).parseClaimsJws(jwt).getBody().getSubject();
 		} catch (ExpiredJwtException e) {
 			LOG.error("token expired");
 		} catch (UnsupportedJwtException | MalformedJwtException e) {
