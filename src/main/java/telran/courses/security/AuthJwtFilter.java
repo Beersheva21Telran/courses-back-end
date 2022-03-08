@@ -32,7 +32,7 @@ public class AuthJwtFilter extends OncePerRequestFilter {
 			throws ServletException, IOException {
 		
 		String jwt = parseJwt(request);
-		LOG.debug("request contains jwt: {}", jwt);
+		
 		
 		
 		if (jwt != null) {
@@ -41,7 +41,7 @@ public class AuthJwtFilter extends OncePerRequestFilter {
 				response.setStatus(401);
 				return;
 			}
-			
+			LOG.debug("request contains jwt: {}", jwt);
 			//fill security context
 			UserDetails user = userDetailsService.loadUserByUsername(username);
 			UsernamePasswordAuthenticationToken authentication =

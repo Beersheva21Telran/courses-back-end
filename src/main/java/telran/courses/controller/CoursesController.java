@@ -5,6 +5,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,6 +39,8 @@ private CoursesService coursesService;
 	}
 	@GetMapping
 	List<Course> getCourses() {
+		LOG.debug("authenticated user {}", ((UserDetails)(SecurityContextHolder.getContext()
+				.getAuthentication().getPrincipal())).getUsername());
 		List<Course> courses = coursesService.getAllCourses();
 		LOG.trace("getting {} courses", courses.size());
 		return courses;
