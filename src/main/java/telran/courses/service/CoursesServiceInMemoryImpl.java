@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import static telran.courses.api.ApiConstants.*;
 
 import telran.courses.api.dto.Course;
-@Service
+//@Service
 public class CoursesServiceInMemoryImpl implements CoursesService, Serializable {
 static Logger LOG = LoggerFactory.getLogger(CoursesService.class);
 	private static final long serialVersionUID = 1L;
