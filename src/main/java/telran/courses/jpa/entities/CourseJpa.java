@@ -11,10 +11,14 @@ public class CourseJpa {
 @Id
 @GeneratedValue
 int id;
+@Column(name = "course_name")
 public String courseName;
+@Column(name="lecturer_name")
 public String lecturerName;
+@Column(name="hours_num")
 public int hoursNum;
 public int cost;
+@Column(name="start_date")
 public LocalDate startDate;
 @Enumerated(EnumType.STRING)
 public CourseType type;
@@ -31,7 +35,7 @@ public static void fillCourseJpa(Course course, CourseJpa res) {
 	res.dayEvening = course.dayEvening;
 	res.hoursNum = course.hoursNum;
 	res.lecturerName = course.lecturerName;
-	res.startDate = LocalDate.parse(course.startDate);
+	res.startDate = LocalDate.parse(course.startDate.subSequence(0, 10));
 	res.type = course.type;
 }
 public Course getCourseDto() {

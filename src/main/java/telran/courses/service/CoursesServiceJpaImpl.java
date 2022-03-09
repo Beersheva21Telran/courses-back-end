@@ -22,6 +22,7 @@ public class CoursesServiceJpaImpl implements CoursesService {
 	}
 
 	@Override
+	@Transactional
 	public Course removeCourse(int id) {
 		Course oldCourse = getCourse(id);
 		if (oldCourse != null) {
