@@ -1,35 +1,31 @@
-package telran.courses.jpa.entities;
+package telran.courses.mongo.documents;
 import java.time.LocalDate;
 
-import javax.persistence.*;
+
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import telran.courses.api.dto.Course;
 import telran.courses.api.dto.CourseType;
-@Entity
-@Table(name="courses")
-public class CourseJpa {
+@Document(collection = "courses")
+public class CourseDocument {
 @Id
-@GeneratedValue
 int id;
-@Column(name = "course_name")
 public String courseName;
-@Column(name="lecturer_name")
 public String lecturerName;
-@Column(name="hours_num")
 public int hoursNum;
 public int cost;
-@Column(name="start_date")
 public LocalDate startDate;
-@Enumerated(EnumType.STRING)
 public CourseType type;
 
 String [] dayEvening;
-static public CourseJpa build(Course course) {
-	CourseJpa res = new CourseJpa();
-	fillCourseJpa(course, res);
+static public CourseDocument build(Course course) {
+	CourseDocument res = new CourseDocument();
+	res.id = course.id;
+	fillCourseDocument(course, res);
 	return res;
 }
-public static void fillCourseJpa(Course course, CourseJpa res) {
+public static void fillCourseDocument(Course course, CourseDocument res) {
 	res.courseName = course.courseName;
 	res.cost = course.cost;
 	res.dayEvening = course.dayEvening;
