@@ -1,15 +1,9 @@
 spring:
-  datasource:
-    driver-class-name: org.postgresql.Driver
-    password: ${DB_PASSWORD}
-    url: jdbc:postgresql://localhost:5432/postgres
-    username: postgres
-  jpa:
-    hibernate:
-      ddl-auto: update
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.PostgreSQL9Dialect
+  data:
+    mongodb:
+      database: college
+      host: localhost
+      port: 27017
         
           
 logging:
