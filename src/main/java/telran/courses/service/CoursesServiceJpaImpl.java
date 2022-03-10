@@ -2,10 +2,10 @@ package telran.courses.service;
 
 import java.util.List;
 
-import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import telran.courses.api.dto.Course;
 import telran.courses.jpa.entities.CourseJpa;
@@ -56,6 +56,7 @@ public class CoursesServiceJpaImpl implements CoursesService {
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public List<Course> getAllCourses() {
 		
 		return courses.findAll().stream().map(CourseJpa::getCourseDto).toList();
