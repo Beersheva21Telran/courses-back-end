@@ -14,12 +14,17 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import telran.exceptions.SecurityExceptionsHandler;
 @Configuration
 @EnableWebSecurity
 public class CoursesSecurityConfigurer extends WebSecurityConfigurerAdapter {
 	@Autowired
 	AuthJwtFilter authJwtFilter;
+	@Autowired
+	SecurityExceptionsHandler securityExceptions;
 
 @Bean
 PasswordEncoder getPasswordEncoder() {
@@ -38,5 +43,7 @@ PasswordEncoder getPasswordEncoder() {
 		.antMatchers(HttpMethod.GET).hasAnyRole(ADMIN, USER)
 		.anyRequest().hasRole(ADMIN);
 		http.addFilterBefore(authJwtFilter, UsernamePasswordAuthenticationFilter.class);
+		http.exceptionHandling().accessDeniedHandler(securityExceptions)
+		.authenticationEntryPoint(securityExceptions);
 	}
 }
